@@ -24,7 +24,7 @@ export default function HeroSection() {
             <span className="text-white">Lending Marketplace</span>
           </h1>
           <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-2xl mx-auto leading-relaxed">
-            Seamlessly connect financial institutions and corporates across
+            Seamlessly connects financial institutions and corporates across
             regions through a
             <span className="text-[#c4a708]">
               {" "}

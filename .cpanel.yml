@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home1/zuvcyumy/public_html/
+    - export DEPLOYPATH=/home1/zuvcyumy/repositories/XFundinghub-website
     - /bin/cp -R dist/* $DEPLOYPATH

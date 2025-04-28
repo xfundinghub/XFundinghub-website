@@ -2,7 +2,7 @@ export default function Header() {
   return (
     <header className="w-full h-20 bg-background border-b">
       <div className="container mx-auto h-full flex items-center justify-between">
-        <h1 className="text-2xl font-bold">XFundingHub</h1>
+        <img src="/Logo.png" alt="XFundingHub" className="h-20" />
         <nav className="space-x-6">
           <a
             href="#features"

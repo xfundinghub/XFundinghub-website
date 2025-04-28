@@ -21,8 +21,10 @@ export default function NewsletterDialog() {
   const [emailError, setEmailError] = useState("");
   const [submitError, setSubmitError] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isSendingEmail, setIsSendingEmail] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
+  const [emailSendError, setEmailSendError] = useState("");
 
-  // Handle authentication on component mount
   useEffect(() => {
     const authenticateUser = async () => {
       const {
@@ -56,13 +58,11 @@ export default function NewsletterDialog() {
     authenticateUser();
   }, []);
 
-  // Email validation function
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(email);
   };
 
-  // Function to submit the form data
   const submitFormData = async (
     name: string,
     email: string,
@@ -73,19 +73,16 @@ export default function NewsletterDialog() {
     }
 
     try {
-      // Log the submission attempt
       console.log("Submitting newsletter subscription to Supabase:", {
         name,
         email,
       });
 
-      // Insert the data into the 'subscribers' table in Supabase
       const { data, error } = await supabase
         .from("subscribers")
         .insert([{ name, email }])
         .select();
 
-      // Check if there was an error with the Supabase operation
       if (error) {
         console.error("Supabase error:", error);
         throw new Error(error.message);
@@ -102,23 +99,19 @@ export default function NewsletterDialog() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Reset errors
     setEmailError("");
     setSubmitError("");
 
-    // Validate email
     if (!validateEmail(email)) {
       setEmailError("Please enter a valid email address");
       return;
     }
 
-    // Check authentication before submission
     if (!isAuthenticated) {
       setSubmitError("System is preparing. Please try again in a moment.");
       return;
     }
 
-    // Submit form
     setIsSubmitting(true);
 
     try {

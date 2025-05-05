@@ -11,6 +11,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/lib/supabase";
+import { sendConfirmationEmail } from "@/lib/emailService";
+import emailjs from "@emailjs/browser";
 
 export default function NewsletterDialog() {
   const [open, setOpen] = useState(false);
@@ -26,6 +28,9 @@ export default function NewsletterDialog() {
   const [emailSendError, setEmailSendError] = useState("");
 
   useEffect(() => {
+    // Initialize EmailJS
+    emailjs.init("qw1m7N_6QwVONUW6g");
+
     const authenticateUser = async () => {
       const {
         data: { user },
@@ -117,7 +122,18 @@ export default function NewsletterDialog() {
     try {
       const success = await submitFormData(name, email);
       if (success) {
-        setIsSubmitted(true);
+        // Send confirmation email
+        setIsSendingEmail(true);
+        const emailResult = await sendConfirmationEmail(name, email);
+        setIsSendingEmail(false);
+
+        if (emailResult.success) {
+          setEmailSent(true);
+          setIsSubmitted(true);
+        } else {
+          setEmailSendError(emailResult.message);
+          setIsSubmitted(true); // Still mark as submitted even if email fails
+        }
       } else {
         setSubmitError("Failed to submit. Please try again later.");
       }

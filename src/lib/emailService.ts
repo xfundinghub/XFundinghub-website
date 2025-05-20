@@ -17,7 +17,7 @@ export async function sendConfirmationEmail(
     };
 
     const result = await emailjs.send(
-      "service_3tv6rui",
+      "service_q7ll2zc",
       "template_b2bwzw8",
       templateParams,
       "qw1m7N_6QwVONUW6g",
